@@ -1,16 +1,9 @@
-# Nested-Product-Catalog-API
-NestedProductCatalogAPI is a Java-based RESTful API for managing a structured product catalog with complex nested data structures, utilizing MySQL for storage, and offering CRUD operations, search functionality, and comprehensive documentation.
 
-
-# Catalogue System
-
+#Catalogue System
 REST API for a Structured Product Catalogue System
-
 
 ## Introduction
 This project aims to implement a RESTful API for a product catalogue system, utilizing Java and MySql to store and manage products with a complex, nested data structure.
-
-
 
 
 ## Features
@@ -22,8 +15,6 @@ This project aims to implement a RESTful API for a product catalogue system, uti
 - Search Products: Search for products based on various criteria such as name, category, price range, etc.
 - Pagination and Sorting: Implement pagination and sorting in the product list retrieval endpoint
 - User Ratings: Allow users to rate products and leave optional comments.
-
-
 
 
 ## Product Entity Structure
@@ -44,13 +35,12 @@ This project aims to implement a RESTful API for a product catalogue system, uti
 ## Technologies Used
 
 - Java
-- Spring Boot
+- Spring Boot,spring data jpa
 - Hibernate(ORM)
 - MySql
 
 
 ## Installation
-
  - Clone the repository.
  - Install dependencies.
  - Configure MySql connection(Hibernate(ORM))
@@ -60,140 +50,547 @@ This project aims to implement a RESTful API for a product catalogue system, uti
 
 - Start the application.
 - Access the API endpoints using a tool Postman.
-
+- Testing Api using endpoints 
 
 ## Running Tests
 
 - To run tests on Postman
    
-   1. http://localhost:8090/api/allproducts
-   Retrieve all product details on data 
-```bash
-  {
-   "id": 1,
-        "name": "Red Dress",
-        "description": "A beautiful red dress for special occasions",
-        "price": 39.99,
-        "categories": "Clothing",
-        "attributes": "Color: Red, Size: Medium",
-        "availability": {
-            "id": 1,
-            "inStock": true,
-            "quantity": 10 } 
-    }
-  {
-    "id": 2,
-    "name": "Kitchen Knife Set",
-    "description": "Essential knives for every kitchen",
-    "price": 49.99,
-    "categories": "Kitchenware",
-    "attributes": "Set of 5 knives with wooden handles",
-    "availability": {
-        "id": 3,
-        "inStock": true,
-        "quantity": 20 } 
-    }
-   {
-    "id": 3,
-    "name": "Running Shoes",
-    "description": "Comfortable shoes designed for running",
-    "price": 79.99,
-    "categories": "Footwear",
-    "attributes": "Color: Black, Size: 9, Type: Running",
-    "availability": {
-        "id": 2,
-        "inStock": false,
-        "quantity": 0   }  
-         } 
-```
-   
-   2. http://localhost:8099/api/allproducts/sort/price 
-   sort the data according to thinks
+   1. http://localhost:8090/products
+   Retrieve all product details as well as refering data of that product
+   [rating , availability]
 ```bash
  [
     {
-        "id": 7,
-        "name": "remote Name",
-        "description": "Product Description",
-        "price": 9.99,
-        "categories": null,
-        "attributes": null,
-        "availability": null,
-        "ratings": []
+        "id": 1,
+        "name": "Product Name",
+        "desciption": "Product Description",
+        "price": 99.99,
+        "categories": "Category1, Category2",
+        "attributes": "Attribute1, Attribute2",
+        "availibility": {
+            "id": 2,
+            "quantity": 100,
+            "instock": true
+        },
+        "rating": [
+            {
+                "id": 1,
+                "userId": 1,
+                "comment": "Great product!",
+                "rating": 4.5,
+                "productId": 1
+            },
+            {
+                "id": 2,
+                "userId": 2,
+                "comment": "Great product!",
+                "rating": 4.5,
+                "productId": 1
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Smartphone XYZ",
+        "desciption": null,
+        "price": 799.99,
+        "categories": "Electronics, Mobile Phones",
+        "attributes": "5G Support, 128GB Storage",
+        "availibility": {
+            "id": 6,
+            "quantity": 100,
+            "instock": true
+        },
+        "rating": [
+            {
+                "id": 7,
+                "userId": 1,
+                "comment": "Great product!",
+                "rating": 4.5,
+                "productId": 2
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Smartphone XYZ",
+        "desciption": null,
+        "price": 799.99,
+        "categories": "Electronics, Mobile Phones",
+        "attributes": "5G Support, 128GB Storage",
+        "availibility": {
+            "id": 7,
+            "quantity": 1001,
+            "instock": true
+        },
+        "rating": [
+            {
+                "id": 12,
+                "userId": 22,
+                "comment": "Great product!",
+                "rating": 4.5,
+                "productId": 3
+            },
+            {
+                "id": 13,
+                "userId": 12,
+                "comment": "Great product!",
+                "rating": 4.5,
+                "productId": 3
+            }
+        ]
     },
     {
         "id": 4,
-        "name": "Example Product",
-        "description": "This is an example product description.",
-        "price": 19.99,
-        "categories": "Electronics, Gadgets",
-        "attributes": "{\"color\": \"red\", \"size\": \"large\", \"weight\": \"1kg\"}",
-        "availability": null,
-        "ratings": []
+        "name": "Smartphone ABC",
+        "desciption": "A high-performance smartphone with 4G connectivity and 64GB storage.",
+        "price": 599.99,
+        "categories": "Electronics, Mobile Phones",
+        "attributes": "4G Support, 64GB Storage",
+        "availibility": {
+            "id": 9,
+            "quantity": 0,
+            "instock": false
+        },
+        "rating": [
+            {
+                "id": 14,
+                "userId": 112,
+                "comment": "Great product!",
+                "rating": 5.0,
+                "productId": 4
+            }
+        ]
     },
     {
         "id": 6,
-        "name": "smart Product",
-        "description": "This is an example product description.",
-        "price": 19.99,
-        "categories": "Electronics, Gadgets",
-        "attributes": "{\"color\": \"red\", \"size\": \"large\", \"weight\": \"1kg\"}",
-        "availability": null,
-        "ratings": []
+        "name": "Product Name",
+        "desciption": null,
+        "price": 99.99,
+        "categories": "Category1, Category2",
+        "attributes": "Attribute1, Attribute2",
+        "availibility": {
+            "id": 12,
+            "quantity": 100,
+            "instock": true
+        },
+        "rating": [
+            {
+                "id": 16,
+                "userId": 1,
+                "comment": "Excellent product!",
+                "rating": 4.5,
+                "productId": 6
+            },
+            {
+                "id": 19,
+                "userId": 5,
+                "comment": "Impressive product!",
+                "rating": 4.5,
+                "productId": 6
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Samsung 55\" QLED Smart TV",
+        "desciption": null,
+        "price": 1299.99,
+        "categories": "Televisions, Electronics",
+        "attributes": "55-inch QLED display, 4K resolution, Quantum HDR, Smart TV functionality",
+        "availibility": {
+            "id": 13,
+            "quantity": 1100,
+            "instock": true
+        },
+        "rating": [
+            {
+                "id": 17,
+                "userId": 2,
+                "comment": "Outstanding product!",
+                "rating": 4.5,
+                "productId": 7
+            },
+            {
+                "id": 20,
+                "userId": 10,
+                "comment": "Highly recommended!",
+                "rating": 4.5,
+                "productId": 7
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Dell XPS 15 Laptop",
+        "desciption": null,
+        "price": 1799.99,
+        "categories": "Laptops, Electronics",
+        "attributes": "15.6-inch 4K OLED display, Intel Core i7 processor, 16GB RAM, 512GB SSD",
+        "availibility": {
+            "id": 14,
+            "quantity": 0,
+            "instock": false
+        },
+        "rating": [
+            {
+                "id": 18,
+                "userId": 8,
+                "comment": "Amazing product!",
+                "rating": 4.5,
+                "productId": 8
+            }
+        ]
+    }
+]
+   
+  # 2. http://localhost:8099/products/sort/price 
+  # //sorting the product data accourding to filed
+```bash
+ [
+    {
+        "id": 8,
+        "name": "Dell XPS 15 Laptop",
+        "desciption": null,
+        "price": 1799.99,
+        "categories": "Laptops, Electronics",
+        "attributes": "15.6-inch 4K OLED display, Intel Core i7 processor, 16GB RAM, 512GB SSD",
+        "availibility": {
+            "id": 14,
+            "quantity": 0,
+            "instock": false
+        },
+        "rating": [
+            {
+                "id": 18,
+                "userId": 8,
+                "comment": "Amazing product!",
+                "rating": 4.5,
+                "productId": 8
+            }
+        ]
     },
     {
         "id": 1,
-        "name": "Red Dress",
-        "description": "A beautiful red dress for special occasions",
-        "price": 39.99,
-        "categories": "Clothing",
-        "attributes": "Color: Red, Size: Medium",
-```
+        "name": "Product Name",
+        "desciption": "Product Description",
+        "price": 99.99,
+        "categories": "Category1, Category2",
+        "attributes": "Attribute1, Attribute2",
+        "availibility": {
+            "id": 2,
+            "quantity": 100,
+            "instock": true
+        },
+        "rating": [
+            {
+                "id": 1,
+                "userId": 1,
+                "comment": "Great product!",
+                "rating": 4.5,
+                "productId": 1
+            },
+            {
+                "id": 2,
+                "userId": 2,
+                "comment": "Great product!",
+                "rating": 4.5,
+                "productId": 1
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Product Name",
+        "desciption": null,
+        "price": 99.99,
+        "categories": "Category1, Category2",
+        "attributes": "Attribute1, Attribute2",
+        "availibility": {
+            "id": 12,
+            "quantity": 100,
+            "instock": true
+        },
+        "rating": [
+            {
+                "id": 16,
+                "userId": 1,
+                "comment": "Excellent product!",
+                "rating": 4.5,
+                "productId": 6
+            },
+            {
+                "id": 19,
+                "userId": 5,
+                "comment": "Impressive product!",
+                "rating": 4.5,
+                "productId": 6
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Samsung 55\" QLED Smart TV",
+        "desciption": null,
+        "price": 1299.99,
+        "categories": "Televisions, Electronics",
+        "attributes": "55-inch QLED display, 4K resolution, Quantum HDR, Smart TV functionality",
+        "availibility": {
+            "id": 13,
+            "quantity": 1100,
+            "instock": true
+        },
+        "rating": [
+            {
+                "id": 17,
+                "userId": 2,
+                "comment": "Outstanding product!",
+                "rating": 4.5,
+                "productId": 7
+            },
+            {
+                "id": 20,
+                "userId": 10,
+                "comment": "Highly recommended!",
+                "rating": 4.5,
+                "productId": 7
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Smartphone ABC",
+        "desciption": "A high-performance smartphone with 4G connectivity and 64GB storage.",
+        "price": 599.99,
+        "categories": "Electronics, Mobile Phones",
+        "attributes": "4G Support, 64GB Storage",
+        "availibility": {
+            "id": 9,
+            "quantity": 0,
+            "instock": false
+        },
+        "rating": [
+            {
+                "id": 14,
+                "userId": 112,
+                "comment": "Great product!",
+                "rating": 5.0,
+                "productId": 4
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Smartphone XYZ",
+        "desciption": null,
+        "price": 799.99,
+        "categories": "Electronics, Mobile Phones",
+        "attributes": "5G Support, 128GB Storage",
+        "availibility": {
+            "id": 6,
+            "quantity": 100,
+            "instock": true
+        },
+        "rating": [
+            {
+                "id": 7,
+                "userId": 1,
+                "comment": "Great product!",
+                "rating": 4.5,
+                "productId": 2
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Smartphone XYZ",
+        "desciption": null,
+        "price": 799.99,
+        "categories": "Electronics, Mobile Phones",
+        "attributes": "5G Support, 128GB Storage",
+        "availibility": {
+            "id": 7,
+            "quantity": 1001,
+            "instock": true
+        },
+        "rating": [
+            {
+                "id": 12,
+                "userId": 22,
+                "comment": "Great product!",
+                "rating": 4.5,
+                "productId": 3
+            },
+            {
+                "id": 13,
+                "userId": 12,
+                "comment": "Great product!",
+                "rating": 4.5,
+                "productId": 3
+            }
+        ]
+    }
+]
 
-   
-   3.  http://localhost:8099/api/pagination/0/3
-   
+  #// 3.  http://localhost:8099/api/pagination/0/4
+   # pagination impl on product data  
 ```bash
- {
+{
     "content": [
         {
             "id": 1,
-            "name": "Red Dress",
-            "description": "A beautiful red dress for special occasions",
-            "price": 39.99,
-            "categories": "Clothing",
-            "attributes": "Color: Red, Size: Medium",
-            "availability": {
-                "id": 1,
-                "inStock": true,
-                "quantity": 10}
-  {
-    "id": 2,
-    "name": "Kitchen Knife Set",
-    "description": "Essential knives for every kitchen",
-    "price": 49.99,
-    "categories": "Kitchenware",
-    "attributes": "Set of 5 knives with wooden handles",
-    "availability": {
-        "id": 3,
-        "inStock": true,
-        "quantity": 20}}]}
-```
-4. update product..http://localhost:8085/api/product/update/5.
-5. delete product..http://localhost:8086/product/delete/1
-6. create rating..http://localhost:8088/rating/add
-7. retrive rating http://localhost:8088/rating
-8. delete rating... http://localhost:8088/deleteRating/3
-9. create availability..http://localhost:8088/addavailability
-10. delete availability...http://localhost:8088/deleteAvailability/5
-11. get availability...http://localhost:8088/addavailability
+            "name": "Product Name",
+            "desciption": "Product Description",
+            "price": 99.99,
+            "categories": "Category1, Category2",
+            "attributes": "Attribute1, Attribute2",
+            "availibility": {
+                "id": 2,
+                "quantity": 100,
+                "instock": true
+            },
+            "rating": [
+                {
+                    "id": 1,
+                    "userId": 1,
+                    "comment": "Great product!",
+                    "rating": 4.5,
+                    "productId": 1
+                },
+                {
+                    "id": 2,
+                    "userId": 2,
+                    "comment": "Great product!",
+                    "rating": 4.5,
+                    "productId": 1
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Smartphone XYZ",
+            "desciption": null,
+            "price": 799.99,
+            "categories": "Electronics, Mobile Phones",
+            "attributes": "5G Support, 128GB Storage",
+            "availibility": {
+                "id": 6,
+                "quantity": 100,
+                "instock": true
+            },
+            "rating": [
+                {
+                    "id": 7,
+                    "userId": 1,
+                    "comment": "Great product!",
+                    "rating": 4.5,
+                    "productId": 2
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Smartphone XYZ",
+            "desciption": null,
+            "price": 799.99,
+            "categories": "Electronics, Mobile Phones",
+            "attributes": "5G Support, 128GB Storage",
+            "availibility": {
+                "id": 7,
+                "quantity": 1001,
+                "instock": true
+            },
+            "rating": [
+                {
+                    "id": 12,
+                    "userId": 22,
+                    "comment": "Great product!",
+                    "rating": 4.5,
+                    "productId": 3
+                },
+                {
+                    "id": 13,
+                    "userId": 12,
+                    "comment": "Great product!",
+                    "rating": 4.5,
+                    "productId": 3
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Smartphone ABC",
+            "desciption": "A high-performance smartphone with 4G connectivity and 64GB storage.",
+            "price": 599.99,
+            "categories": "Electronics, Mobile Phones",
+            "attributes": "4G Support, 64GB Storage",
+            "availibility": {
+                "id": 9,
+                "quantity": 0,
+                "instock": false
+            },
+            "rating": [
+                {
+                    "id": 14,
+                    "userId": 112,
+                    "comment": "Great product!",
+                    "rating": 5.0,
+                    "productId": 4
+                }
+            ]
+        }
+    ],
+    "pageable": {
+        "pageNumber": 0,
+        "pageSize": 4,
+        "sort": {
+            "empty": true,
+            "sorted": false,
+            "unsorted": true
+        },
+        "offset": 0,
+        "unpaged": false,
+        "paged": true
+    },
+    "last": false,
+    "totalElements": 7,
+    "totalPages": 2,
+    "size": 4,
+    "number": 0,
+    "sort": {
+        "empty": true,
+        "sorted": false,
+        "unsorted": true
+    },
+    "numberOfElements": 4,
+    "first": true,
+    "empty": false
+}
+
+
+# the particular end point for particular entity
+1 get product..http://localhost:8085/products
+2 get/id product..http://localhost:8085/products/id
+3. create product..http://localhost:8088/products/add 
+3. update product..http://localhost:8085/products/update/id
+5. delete product..http://localhost:8086/products/delete/id
+
+#ratibg entity endpoint
+1  retrive rating http://localhost:8088/rating/id
+2. retrive/id rating..http://localhost:8088/rating/id
+3 create rating ..http://localhost:8088/rating/add
+4. update rating...http://localhost:8088/rating/update/id
+5. delete rating... http://localhost:8088/Rating/delete/id
+
+#availibility entity endpoint
+1  retrive availibility http://localhost:8088/availibility/id
+2. retrive/id availibility..http://localhost:8088/availibility/id
+3 create availibility ..http://localhost:8088/availibility/add
+4. update availibility...http://localhost:8088/availibility/update/id
+5. delete availibility... http://localhost:8088/availibility/delete/id
     
       
- 
-        
-
 ## Contributors
-
 - Surendra Patil (https://www.github.com/octokatherine)
-
 
